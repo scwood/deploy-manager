@@ -18,9 +18,6 @@ app.post('/:appName', (req, res) => {
     }
     console.log(stdout);
     console.log(stderr);
-    if (!stdout.includes('Downloaded newer image')) {
-      return;
-    }
     const containerName = props.containerName;
     exec(`docker rm -f ${props.containerName}`, (err, stdout, stderr) => {
       if (err) {
