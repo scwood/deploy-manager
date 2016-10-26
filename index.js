@@ -4,7 +4,7 @@ const config = require('./config');
 
 app.post('/:appName', (req, res) => {
   const appName = req.params.appName;
-  if (!(req.params.appName in config)) {
+  if (!(appName in config)) {
     res.send('app does not exist');
     return;
   }
@@ -20,7 +20,6 @@ app.post('/:appName', (req, res) => {
     if (!stdout.includes('Downloaded newer image')) {
       return;
     }
-    // docker run -d --name $(name) -p $(hostPort):$(containerPort) $(tag)
     exec(`docker rm -f ${props.containerName}`, (err, stdout, stderr) => {
       if (err) {
         console.log(err);
@@ -28,11 +27,9 @@ app.post('/:appName', (req, res) => {
       }
       console.log(stdout);
       console.log(stderr);
-      const runCommand = 'docker run -d' +
-        `--name ${props.containerName}` +
-        `-p ${props.hostPort}:${props.containerPort}` +
-        props.imageName;
-      exec(runCommand, (err, stdout, stderr) => {
+      const flags = props.runFlags;
+      const run = `docker run -d --name ${props.containerName} ${props.flags}`;
+      exec(run, (err, stdout, stderr) => {
         if (err) {
           console.log(err);
           return;

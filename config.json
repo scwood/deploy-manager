@@ -1,7 +1,7 @@
 {
   "day-by-day": {
     "imageName": "scwood/day-by-day:latest",
-    "containerPort": 3001,
-    "hostPort": 3001
+    "containerName": "day-by-day",
+    "flags": "-p 3001:3001"
   }
 }
