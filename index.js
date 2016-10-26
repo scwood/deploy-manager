@@ -19,7 +19,7 @@ app.post('/:appName', (req, res) => {
     console.log(stdout);
     console.log(stderr);
     const containerName = props.containerName;
-    exec(`docker rm -f ${props.containerName}`, (err, stdout, stderr) => {
+    exec(`docker rm -f ${props.containerName} || true`, (err, stdout, stderr) => {
       if (err) {
         console.log(err);
         return;
