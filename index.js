@@ -9,8 +9,7 @@ app.post('/:appName', (req, res) => {
     return;
   }
   res.send('deployment triggered');
-  const props = config[appName];
-  const imageName = props.imageName;
+  const { imageName, containerName, flags } = config[appName];
   const pull = `docker pull ${imageName}`;
   exec(pull, (err, stdout, stderr) => {
     console.log(pull);
@@ -20,8 +19,7 @@ app.post('/:appName', (req, res) => {
     }
     console.log(stdout);
     console.log(stderr);
-    const containerName = props.containerName;
-    const rm = `docker rm -f ${props.containerName} || true`;
+    const rm = `docker rm -f ${containerName} || true`;
     exec(rm, (err, stdout, stderr) => {
       console.log(rm);
       if (err) {
@@ -30,7 +28,6 @@ app.post('/:appName', (req, res) => {
       }
       console.log(stdout);
       console.log(stderr);
-      const flags = props.flags;
       const run = `docker run -d --name ${containerName} ${flags} ${imageName}`;
       exec(run, (err, stdout, stderr) => {
         if (err) {
