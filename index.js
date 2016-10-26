@@ -10,7 +10,8 @@ app.post('/:appName', (req, res) => {
   }
   res.send('deployment triggered');
   const props = config[appName];
-  exec(`docker pull ${props.imageName}`, (err, stdout, stderr) => {
+  const imageName = props.imageName;
+  exec(`docker pull ${imageName}`, (err, stdout, stderr) => {
     if (err) {
       console.log(err);
       return;
@@ -20,6 +21,7 @@ app.post('/:appName', (req, res) => {
     if (!stdout.includes('Downloaded newer image')) {
       return;
     }
+    const containerName = props.containerName;
     exec(`docker rm -f ${props.containerName}`, (err, stdout, stderr) => {
       if (err) {
         console.log(err);
@@ -28,7 +30,7 @@ app.post('/:appName', (req, res) => {
       console.log(stdout);
       console.log(stderr);
       const flags = props.runFlags;
-      const run = `docker run -d --name ${props.containerName} ${props.flags}`;
+      const run = `docker run -d --name ${containerName} ${flags} ${imageName}`;
       exec(run, (err, stdout, stderr) => {
         if (err) {
           console.log(err);
