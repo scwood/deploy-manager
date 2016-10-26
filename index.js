@@ -26,7 +26,7 @@ app.post('/:appName', (req, res) => {
       }
       console.log(stdout);
       console.log(stderr);
-      const flags = props.runFlags;
+      const flags = props.flags;
       const run = `docker run -d --name ${containerName} ${flags} ${imageName}`;
       exec(run, (err, stdout, stderr) => {
         if (err) {
