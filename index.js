@@ -11,7 +11,9 @@ app.post('/:appName', (req, res) => {
   res.send('deployment triggered');
   const props = config[appName];
   const imageName = props.imageName;
-  exec(`docker pull ${imageName}`, (err, stdout, stderr) => {
+  const pull = `docker pull ${imageName}`;
+  exec(pull, (err, stdout, stderr) => {
+    console.log(pull);
     if (err) {
       console.log(err);
       return;
@@ -19,7 +21,9 @@ app.post('/:appName', (req, res) => {
     console.log(stdout);
     console.log(stderr);
     const containerName = props.containerName;
-    exec(`docker rm -f ${props.containerName} || true`, (err, stdout, stderr) => {
+    const rm = `docker rm -f ${props.containerName} || true`;
+    exec(rm, (err, stdout, stderr) => {
+      console.log(rm);
       if (err) {
         console.log(err);
         return;
