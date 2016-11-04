@@ -2,6 +2,6 @@
   "day-by-day": {
     "imageName": "scwood/day-by-day:latest",
     "containerName": "day-by-day",
-    "flags": "-p 3001:3001"
+    "flags": "-p 3001:3001 -e VIRTUAL_HOST=daybyday.spncrwd.com"
   }
 }
