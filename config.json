@@ -3,5 +3,10 @@
     "imageName": "scwood/day-by-day:latest",
     "containerName": "day-by-day",
     "flags": "-p 3001:3001 -e VIRTUAL_HOST=daybyday.spncrwd.com"
+  },
+  "docker-webui": {
+    "imageName": "pottava/docker-webui",
+    "containerName": "docker-webui",
+    "flags": "-p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -e APP_VIEW_ONLY=true -e VIRTUAL_HOST=docker.spncrwd.com"
   }
 }
