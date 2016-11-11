@@ -5,7 +5,7 @@
   },
   "docker-webui": {
     "imageName": "pottava/docker-webui",
-    "flags": "-p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -e APP_VIEW_ONLY=true -e VIRTUAL_HOST=docker.spncrwd.com"
+    "flags": "-v /var/run/docker.sock:/var/run/docker.sock -e APP_VIEW_ONLY=true -e VIRTUAL_HOST=docker.spncrwd.com"
   },
   "lds-scriptures": {
     "imageName": "scwood/lds-scriptures",
