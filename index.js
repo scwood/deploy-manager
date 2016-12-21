@@ -1,5 +1,10 @@
 const app = require('express')();
-const exec = require('child_process').exec;
+const exec = require('child-process-promise').exec;
+
+function logOutput(process) {
+  console.log(process.stdout);
+  console.log(process.stderr);
+}
 
 app.post('/:appName', (req, res) => {
   const apps = require('./config').apps;
@@ -8,13 +13,14 @@ app.post('/:appName', (req, res) => {
     res.send('app does not exist');
     return;
   }
-  res.send('deployment triggered');
   const { imageName, flags } = apps[appName];
-  exec(`docker pull ${imageName}`, () => {
-    exec(`docker rm -f ${appName} || true`, () => {
-      exec(`docker run -d --name ${appName} ${flags} ${imageName}`);
-    });
-  });
+  res.send('deployment triggered');
+  exec(`docker pull ${imageName}`)
+    .then(logOutput)
+    .then(() => exec(`docker rm -f ${appName} || true`))
+    .then(logOutput)
+    .then(() => exec(`docker run -d --name ${appName} ${flags} ${imageName}`))
+    .catch(error => console.log(error));
 });
 
 const port = process.env.port || 3000;
