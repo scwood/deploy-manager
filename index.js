@@ -1,15 +1,16 @@
 const app = require('express')();
 const exec = require('child_process').exec;
 const config = require('./config');
+const apps = config.apps;
 
 app.post('/:appName', (req, res) => {
   const appName = req.params.appName;
-  if (!(appName in config)) {
+  if (!(appName in apps)) {
     res.send('app does not exist');
     return;
   }
   res.send('deployment triggered');
-  const { imageName, flags } = config[appName];
+  const { imageName, flags } = apps[appName];
   exec(`docker pull ${imageName}`, () => {
     exec(`docker rm -f ${appName} || true`, () => {
       exec(`docker run -d --name ${appName} ${flags} ${imageName}`);
