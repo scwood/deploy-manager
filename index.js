@@ -2,8 +2,13 @@ const app = require('express')();
 const exec = require('child-process-promise').exec;
 
 function logOutput(process) {
-  console.log(process.stdout);
-  console.log(process.stderr);
+  const { stdout, stderr } = process;
+  if (stdout) {
+    console.log(stdout);
+  }
+  if (stderr) {
+    console.log(stderr);
+  }
 }
 
 app.post('/:appName', (req, res) => {
