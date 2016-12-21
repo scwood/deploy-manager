@@ -1,8 +1,8 @@
 const app = require('express')();
 const exec = require('child_process').exec;
-const apps = require('./config').apps;
 
 app.post('/:appName', (req, res) => {
+  const apps = require('./config').apps;
   const appName = req.params.appName;
   if (!(appName in apps)) {
     res.send('app does not exist');
