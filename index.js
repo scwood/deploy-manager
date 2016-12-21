@@ -1,7 +1,6 @@
 const app = require('express')();
 const exec = require('child_process').exec;
-const config = require('./config');
-const apps = config.apps;
+const apps = require('./config').apps;
 
 app.post('/:appName', (req, res) => {
   const appName = req.params.appName;
