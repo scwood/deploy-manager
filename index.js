@@ -1,6 +1,5 @@
 const app = require('express')();
 const exec = require('child-process-promise').exec;
-const apps = require(process.argv[2]).apps;
 
 function logOutput(process) {
   const { stdout, stderr } = process;
@@ -14,6 +13,7 @@ function logOutput(process) {
 
 app.post('/:appName', (req, res) => {
   const appName = req.params.appName;
+  const apps = require(process.env.CONFIG_PATH);
   if (!(appName in apps)) {
     res.send('app does not exist');
     return;
